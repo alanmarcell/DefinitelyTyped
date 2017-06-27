@@ -443,6 +443,14 @@ export interface FSyncOptions {
     fsync?: boolean
 }
 
+// http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#find
+export interface FindOptions {
+    fields?: Object;
+    skip?: number;
+    limit?: number;
+    timeout?: number;
+}
+
 // Documentation : http://mongodb.github.io/node-mongodb-native/2.1/api/Collection.html
 export interface Collection<TSchema = Default> {
     // Get the collection name.
@@ -499,6 +507,7 @@ export interface Collection<TSchema = Default> {
     find<T = TSchema>(query?: Object): Cursor<T>;
     /** @deprecated */
     find<T = TSchema>(query: Object, fields?: Object, skip?: number, limit?: number, timeout?: number): Cursor<T>;
+    find<T = TSchema>(query: Object, options?: FindOptions): Cursor<T>;
     //http://mongodb.github.io/node-mongodb-native/2.1/api/Collection.html#findOne
     findOne<T = TSchema>(filter: Object, callback: MongoCallback<T>): void;
     findOne<T = TSchema>(filter: Object, options?: FindOneOptions): Promise<T>;
@@ -586,8 +595,8 @@ export interface Collection<TSchema = Default> {
     rename(newName: string, callback: MongoCallback<Collection<TSchema>>): void;
     rename(newName: string, options?: { dropTarget?: boolean }): Promise<Collection<TSchema>>;
     rename(newName: string, options: { dropTarget?: boolean }, callback: MongoCallback<Collection<TSchema>>): void;
-    //http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#replaceOne
-    replaceOne(filter: Object, doc: Object, callback: MongoCallback<UpdateWriteOpResult & { ops: Array<any> }>): void;
+    //http://mongodb.github.io/node-mongodb-native/2.1/api/Collection.html#replaceOne
+    replaceOne(filter: Object, doc: Object, callback: MongoCallback<UpdateWriteOpResult>): void;
     replaceOne(filter: Object, doc: Object, options?: ReplaceOneOptions): Promise<UpdateWriteOpResult & { ops: Array<any> }>;
     replaceOne(filter: Object, doc: Object, options: ReplaceOneOptions, callback: MongoCallback<UpdateWriteOpResult & { ops: Array<any> }>): void;
     //http://mongodb.github.io/node-mongodb-native/2.1/api/Collection.html#save
